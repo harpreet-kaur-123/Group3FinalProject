@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Charts</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+          <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+          <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+              var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['temp_c',     {{temp_c}}],
+                ['temp_f',      {{temp_f}}],
+                ['wind_mph',  {{wind_mph}}],
+                ['wind_kph', {{wind_kph}}],
+                ['wind_degree',    {{wind_degree}}],
+                ['pressure_mb',    {{pressure_mb}}],
+                ['pressure_in',    {{pressure_in}}],
+                ['precip_mm',    {{precip_mm}}],
+                ['precip_in',    {{precip_in}}],
+                ['humidity',    {{humidity}}],
+                ['cloud',    {{cloud}}],
+                ['feelslike_c',    {{feelslike_c}}],
+                ['feelslike_f',    {{feelslike_f}}],
+                ['vis_km',    {{vis_km}}],
+                ['vis_miles',    {{vis_miles}}],
+                ['gust_mph',    {{gust_mph}}],
+                ['gust_kph',    {{gust_kph}}],
+              ]);
+              var options = {
+                title: 'Weather Record'
+              };
+              var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+              chart.draw(data, options);
+            }
+			
+			google.charts.load('current', {packages: ['corechart', 'line']});
+			google.charts.setOnLoadCallback(drawBackgroundColor);
+			function drawBackgroundColor() {
+				  var data = new google.visualization.DataTable();
+				  data.addColumn('number', 'X');
+				  data.addColumn('number', 'wind_kph');
+				  data.addRows({{linechart_arr | tojson}});
+				  var options = {
+					hAxis: {
+					  title: 'Date'
+					},
+					vAxis: {
+					  title: 'wind_kph'
+					},
+					backgroundColor: '#f1f8e9'
+				  };
+				  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+				  chart.draw(data, options);
+			}
+	
+			google.charts.load('current', {packages: ['corechart', 'bar']});
+            google.charts.setOnLoadCallback(drawMultSeries);
+      
+            function drawMultSeries() {
+			  var data = google.visualization.arrayToDataTable({{barchart_arr | tojson}});
+			  var options = {
+				title: 'Humidity Data',
+				chartArea: {width: '50%'},
+				hAxis: {
+				  title: 'Humidity',
+				  minValue: 0
+				},
+				vAxis: {
+				  title: 'Date'
+				}
+			  };
+			  var chart = new google.visualization.BarChart(document.getElementById('bar_chart_div'));
+			  chart.draw(data, options);
+			}
+			
+			
+			google.charts.load('current', {'packages':['corechart']});
+			  google.charts.setOnLoadCallback(drawVisualization);
+			  function drawVisualization() {
+				// Some raw data (not necessarily accurate)
+				var data = google.visualization.arrayToDataTable({{combochart_arr | tojson}});
+				var options = {
+				  title : 'Daily Weather data',
+				  vAxis: {title: 'Temp_c'},
+				  hAxis: {title: 'Temp_f'},
+				  seriesType: 'bars',
+				  series: {2: {type: 'line'}}
+				};
+				var chart = new google.visualization.ComboChart(document.getElementById('combo_chart_div'));
+				chart.draw(data, options);
+			  }
+			  
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(scatterChart);
+			function scatterChart() {
+				var data = google.visualization.arrayToDataTable({{scatterchart_arr | tojson}});
+				var options = {
+				  title: 'O3 vs. CO air quality comparison',
+				  hAxis: {title: 'O3', minValue: 0, maxValue: 400},
+				  vAxis: {title: 'CO', minValue: 0, maxValue: 400},
+				  legend: 'none'
+				};
+				var chart = new google.visualization.ScatterChart(document.getElementById('scatter_chart_div'));
+				chart.draw(data, options);
+			}
+          </script>
+        </head>
+        <body>
+		
+		<h1>Pie Chart</h1>
+		<h4>Location - {{name}}</h4>
+		<h4>Region - {{region}}</h4>
+		<h4>Country - {{country}}</h4>
+		<h4>Time - {{localtime}}</h4>
+        <div id="piechart" style="width: 900px; height: 550px;"></div><br>
+		
+		<h1>Line Chart</h1>
+		<div id="chart_div"></div><br><br><br>
+		
+		<h1>Bar Chart</h1>
+		<div id="bar_chart_div"></div><br><br><br>
+		
+		<h1>Combo Chart</h1>
+		<div id="combo_chart_div"></div><br><br><br>
+		
+		<h1>Scatter Chart</h1>
+		<div id="scatter_chart_div"></div><br>
+		
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

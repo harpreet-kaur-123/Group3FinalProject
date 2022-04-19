@@ -1,0 +1,7 @@
+django
+gunicorn
+Jinja2
+flask
+pymongo
+dnspython
+django_heroku

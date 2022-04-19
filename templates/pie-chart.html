@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>PieChart</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+          <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+          <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+      
+            function drawChart() {
+      
+              var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['temp_c',     {{temp_c}}],
+                ['temp_f',      {{temp_f}}],
+                ['wind_mph',  {{wind_mph}}],
+                ['wind_kph', {{wind_kph}}],
+                ['wind_degree',    {{wind_degree}}],
+                ['pressure_mb',    {{pressure_mb}}],
+                ['pressure_in',    {{pressure_in}}],
+                ['precip_mm',    {{precip_mm}}],
+                ['precip_in',    {{precip_in}}],
+                ['humidity',    {{humidity}}],
+                ['cloud',    {{cloud}}],
+                ['feelslike_c',    {{feelslike_c}}],
+                ['feelslike_f',    {{feelslike_f}}],
+                ['vis_km',    {{vis_km}}],
+                ['vis_miles',    {{vis_miles}}],
+                ['gust_mph',    {{gust_mph}}],
+                ['gust_kph',    {{gust_kph}}],
+              ]);
+      
+              var options = {
+                title: 'Weather Record'
+              };
+      
+              var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+      
+              chart.draw(data, options);
+            }
+          </script>
+        </head>
+        <body>
+		<h1>Location - {{name}}</h1>
+		<h3>Region - {{region}}</h3>
+		<h3>Country - {{country}}</h3>
+		<h3>Time - {{localtime}}</h3>
+          <div id="piechart" style="width: 900px; height: 800px;"></div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
